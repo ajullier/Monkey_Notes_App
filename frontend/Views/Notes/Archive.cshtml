@@ -1,0 +1,56 @@
+﻿@model IEnumerable<NoteWebMVC.Models.DtoGetNotes>
+
+@{
+    ViewData["Title"] = "Archive";
+}
+
+<h1>Archive</h1>
+
+<p>
+</p>
+
+<p>
+    <form asp-action="Archive" method="get">
+        <input type="text" name="tag">
+        <button type="submit">Search By TAG</button>
+    </form>
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Create Date</th>
+            <th>Edit Date</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Note.Name)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note.EditDate)
+                </td>
+                <td>
+                    @foreach (string tag in item.Tags)
+                    {
+                        @tag
+                        <b>//</b>
+                    }
+                </td>
+            <td>
+                <a asp-controller="Notes" asp-action="ToActive" asp-route-id="@item.Note.Id">Restore</a>|
+                <a asp-controller="Notes" asp-action="Delete" asp-route-id="@item.Note.Id">Delete</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,76 @@
+﻿@model NoteWebMVC.Models.RequestCreateNote
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<p>@ViewBag.Error</p>
+<h4>Note</h4>
+<hr />
+
+<form asp-action="EditTag_Create" asp-controller="Notes" method="post">
+    <div id="tagsContainer">
+        @if (Model.Tags != null && Model.Tags.Any())
+        {
+            foreach (var tag in Model.Tags)
+            {
+                <div class="tag">
+                    <span>@tag</span>
+                    <input type="hidden" name="Tags" value="@tag" />
+                    <button type="submit" name="removeTag" value="@tag">X</button>
+                </div>
+            }
+        }
+    </div>
+    <input type="text" name="newTag" placeholder="Add Tag">
+    <input type="hidden" asp-for="Content" value="@Model.Content">
+    <input type="hidden" asp-for="Name" value="@Model.Name">
+    <input type="hidden" name="id" value="@ViewBag.Id">
+    <button type="submit">Add Tag</button>
+</form>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label" rows="20"></label>
+                <textarea asp-for="Content" class="form-control"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div id="tagsContainer">
+                @if (Model.Tags != null && Model.Tags.Any())
+                {
+                    foreach (var tag in Model.Tags)
+                    {
+                        <div class="tag">
+                            <input type="hidden" name="Tags" value="@tag" />
+                        </div>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
